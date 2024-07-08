@@ -90,8 +90,6 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
-
-
 """"""""""""""""""""""""""""""
 " => Status line
 """"""""""""""""""""""""""""""
@@ -100,7 +98,6 @@ set laststatus=2
 
 " Format the status line
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Keymaps
@@ -124,6 +121,17 @@ map <up> <nop>
 map <down> <nop>
 map <left> <nop>
 map <right> <nop>
+
+" Toggle search highlight
+map <silent> <C-l> :set hlsearch!<cr>
+
+" To not jump over current line when the current line is long and wrapped
+nnoremap j gj
+nnoremap k gk
+
+" Jump to first non-white character and end of line easierly
+map H ^
+map L $
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
