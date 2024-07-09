@@ -1,3 +1,6 @@
+# Aliases
+# -----------------------------------------------------------
+
 alias ipe='curl ifconfig.me; echo'
 alias ipi='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
 alias ps='ps aux'
@@ -20,3 +23,11 @@ function backup() {
   fi
 }
 alias bak='backup'
+
+# Key bindings
+# -----------------------------------------------------------
+
+# https://superuser.com/a/583584
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search
+
