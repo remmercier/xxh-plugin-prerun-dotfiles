@@ -31,3 +31,6 @@ alias bak='backup'
 bindkey "^P" up-line-or-search
 bindkey "^N" down-line-or-search
 
+# zsh-autosuggestions keybindings
+bindkey '^f' autosuggest-execute
+
