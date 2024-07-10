@@ -17,7 +17,9 @@ if [[ ! -f $done_file ]]; then
       target_item=$target_dir/$item
     fi
 
-    if [[ -f $item && ! -f $target_item ]]; then
+    # if [[ -f $item && ! -f $target_item ]]; then
+    # Even if the destination file exists, we overwrite it
+    if [[ -f $item ]]; then
       if [[ $XXH_VERBOSE == '1' || $XXH_VERBOSE == '2' ]]; then
         echo "xxh-plugin-prerun-dotfiles: Create file $target_item"
       fi
