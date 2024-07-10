@@ -1,6 +1,5 @@
 # Aliases
 # -----------------------------------------------------------
-alias marjo=ls
 alias ipe='curl ifconfig.me; echo'
 alias ipi='ifconfig | sed -En "s/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p"'
 alias ps='ps aux'
