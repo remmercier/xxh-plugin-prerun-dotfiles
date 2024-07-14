@@ -12,6 +12,10 @@ let mapleader = " "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
 set history=500
+
+" Persistent undo
+set undofile
+set undodir=$HOME/.vim/undo
 " Use many muchos levels of undo
 set undolevels=500
 
