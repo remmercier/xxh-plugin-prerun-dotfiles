@@ -173,18 +173,6 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
 
-" Map key chord `jk` to <Esc>.
-" https://www.reddit.com/r/vim/comments/ufgrl8/journey_to_the_ultimate_imap_jk_esc/
-let g:esc_j_lasttime = 0
-let g:esc_k_lasttime = 0
-function! JKescape(key)
-	if a:key=='j' | let g:esc_j_lasttime = reltimefloat(reltime()) | endif
-	if a:key=='k' | let g:esc_k_lasttime = reltimefloat(reltime()) | endif
-	let l:timediff = abs(g:esc_j_lasttime - g:esc_k_lasttime)
-	return (l:timediff <= 0.05 && l:timediff >=0.001) ? "\b\e" : a:key
-endfunction
-inoremap <expr> j JKescape('j')
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vim-plug
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -201,14 +189,39 @@ call plug#begin()
 Plug 'terryma/vim-smooth-scroll'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'tpope/vim-commentary'
+Plug 'itchyny/lightline.vim'
+Plug 'jdhao/better-escape.vim'
 " UI plugins
 Plug 'tribela/vim-transparent'
 Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Options that need to be applied after plugins were loaded
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme dracula
 
+" Add cwd path into the status line
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'cwd' ] ]
+      \ },
+      \ 'component': {
+      \   'cwd': '%{getcwd()}',
+      \   'charvaluehex': '0x%B'
+      \ },
+      \ }
+
+" Better scroll
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+
+" Activate rainbow parentheses by default
+autocmd VimEnter * RainbowParentheses
+
+" Better escape than escape key
+let g:better_escape_shortcut = ['jk', 'jj', 'kj']
