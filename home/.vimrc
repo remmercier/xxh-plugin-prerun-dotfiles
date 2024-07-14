@@ -137,6 +137,24 @@ map H ^
 map L $
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Misc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" Delete trailing white space on save, useful for some filetypes ;)
+fun! CleanExtraSpaces()
+    let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    silent! %s/\s\+$//e
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
+endfun
+
+if has("autocmd")
+    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Returns true if paste mode is enabled
@@ -166,4 +184,31 @@ function! JKescape(key)
 	return (l:timediff <= 0.05 && l:timediff >=0.001) ? "\b\e" : a:key
 endfunction
 inoremap <expr> j JKescape('j')
-inoremap <expr> k JKescape('k')
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim-plug
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Auto-install vim-plug
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin()
+" Editor plugins
+Plug 'terryma/vim-smooth-scroll'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'tpope/vim-commentary'
+" UI plugins
+Plug 'tribela/vim-transparent'
+Plug 'dracula/vim', { 'as': 'dracula' }
+call plug#end()
+
+colorscheme dracula
+
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
