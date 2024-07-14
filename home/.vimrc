@@ -190,16 +190,20 @@ Plug 'terryma/vim-smooth-scroll'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'tpope/vim-commentary'
 Plug 'itchyny/lightline.vim'
-Plug 'jdhao/better-escape.vim'
 " UI plugins
-Plug 'tribela/vim-transparent'
-Plug 'dracula/vim', { 'as': 'dracula' }
+if v:version >= 705
+  Plug 'tribela/vim-transparent'
+  Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'jdhao/better-escape.vim'
+endif
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Options that need to be applied after plugins were loaded
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme dracula
+if v:version >= 705
+  colorscheme dracula
+endif
 
 " Add cwd path into the status line
 let g:lightline = {
@@ -225,3 +229,7 @@ autocmd VimEnter * RainbowParentheses
 
 " Better escape than escape key
 let g:better_escape_shortcut = ['jk', 'jj', 'kj']
+if v:version < 705
+    inoremap jk <esc>
+    vnoremap jk <esc>
+endif
