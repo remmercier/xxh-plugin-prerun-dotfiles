@@ -1,5 +1,7 @@
-" https://nvie.com/posts/how-i-boosted-my-vim/
-" https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
+" References:
+" - https://nvie.com/posts/how-i-boosted-my-vim/
+" - https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
+" - https://medium.com/@edominguez.se/vim-101-a-comprehensive-guide-to-using-vim-like-an-ide-1-3-vimrc-d484cc41fc2
 
 " This must be first, because it changes other options as side effect
 set nocompatible
@@ -105,6 +107,16 @@ set wrap "Wrap lines
 
 " Open split view to right
 set splitright
+
+" Show entered keys (bottom right corner)
+set showcmd
+
+" Not display mode (insert, normal, ...); done by lightline plugin
+set noshowmode
+set conceallevel=1
+
+" Share clipboard with OS
+set clipboard=unnamed
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -216,6 +228,7 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'tpope/vim-commentary'
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-vinegar'
+Plug 'yggdroot/indentline'
 " UI plugins
 if v:version >= 705
   Plug 'tribela/vim-transparent'
