@@ -103,14 +103,18 @@ set ai "Auto indent
 set si "Smart indent
 set wrap "Wrap lines
 
+" Open split view to right
+set splitright
+
 """"""""""""""""""""""""""""""
 " => Status line
 """"""""""""""""""""""""""""""
 " Always show the status line
 set laststatus=2
 
+" Replace status line by lightline plugin
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Keymaps
@@ -164,9 +168,10 @@ if has("autocmd")
     autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" To display line number in vinegar
+" https://github.com/tpope/vim-vinegar/issues/38
+let g:netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
+
 " Returns true if paste mode is enabled
 function! HasPaste()
     if &paste
@@ -181,6 +186,16 @@ augroup numbertoggle
     autocmd!
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+
+" https://github.com/tpope/vim-vinegar/issues/89
+function! NetrwBuf()
+  nmap <buffer> h -
+  nmap <buffer> l <CR>
+endfunction
+
+augroup FILETYPES
+  autocmd FileType netrw call NetrwBuf()
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -200,6 +215,7 @@ Plug 'terryma/vim-smooth-scroll'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'tpope/vim-commentary'
 Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-vinegar'
 " UI plugins
 if v:version >= 705
   Plug 'tribela/vim-transparent'
@@ -211,7 +227,7 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Options that need to be applied after plugins were loaded
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if v:version >= 705
+if !has('nvim') && v:version >= 705
   colorscheme dracula
 endif
 
@@ -243,3 +259,4 @@ if v:version < 705
     inoremap jk <esc>
     vnoremap jk <esc>
 endif
+
